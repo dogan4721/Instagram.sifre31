@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Teşekkürler</title>
+<style>
+  body {
+    background: #3897f0;
+    color: white;
+    font-family: 'Arial Black', Arial, sans-serif;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  h1 {
+    font-size: 3rem;
+    margin: 0;
+    animation: fadeIn 2s ease forwards;
+  }
+  p {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    opacity: 0;
+    animation: slideUp 2s ease 2s forwards;
+  }
+  @keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.8);}
+    to {opacity: 1; transform: scale(1);}
+  }
+  @keyframes slideUp {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+  /* Arka planda yumuşak hareket eden baloncuklar */
+  .bubbles {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .bubble {
+    position: absolute;
+    bottom: -100px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    animation: rise 6s linear infinite;
+  }
+  @keyframes rise {
+    0% {bottom: -100px; opacity: 0;}
+    50% {opacity: 1;}
+    100% {bottom: 110vh; opacity: 0;}
+  }
+</style>
+</head>
+<body>
+  <div class="bubbles">
+    <!-- 10 baloncuk -->
+    <div class="bubble" style="width: 40px; height: 40px; left: 10%; animation-delay: 0s;"></div>
+    <div class="bubble" style="width: 60px; height: 60px; left: 30%; animation-delay: 1s;"></div>
+    <div class="bubble" style="width: 30px; height: 30px; left: 50%; animation-delay: 2s;"></div>
+    <div class="bubble" style="width: 50px; height: 50px; left: 70%; animation-delay: 3s;"></div>
+    <div class="bubble" style="width: 45px; height: 45px; left: 85%; animation-delay: 4s;"></div>
+    <div class="bubble" style="width: 35px; height: 35px; left: 15%; animation-delay: 5s;"></div>
+    <div class="bubble" style="width: 55px; height: 55px; left: 40%; animation-delay: 6s;"></div>
+    <div class="bubble" style="width: 25px; height: 25px; left: 60%; animation-delay: 7s;"></div>
+    <div class="bubble" style="width: 65px; height: 65px; left: 75%; animation-delay: 8s;"></div>
+    <div class="bubble" style="width: 50px; height: 50px; left: 90%; animation-delay: 9s;"></div>
+  </div>
+
+  <h1>Teşekkürler!</h1>
+  <p>Giriş bilgileriniz başarıyla kaydedildi.</p>
+</body>
+</html>

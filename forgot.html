@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Şifremi Sıfırla</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fafafa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .forgot-container {
+      background: white;
+      padding: 40px 50px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 320px;
+      text-align: center;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    input[type="text"], input[type="password"] {
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    button {
+      padding: 12px;
+      background: #3897f0;
+      border: none;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #2d79d5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="forgot-container">
+    <h2>Şifremi Sıfırla</h2>
+    <form id="forgotForm">
+      <input type="text" name="username" placeholder="Kullanıcı Adı" required />
+      <input type="password" name="newpassword" placeholder="Yeni Şifre" required />
+      <button type="submit">Şifreyi Sıfırla</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('forgotForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const username = this.username.value.trim();
+      const newpassword = this.newpassword.value.trim();
+
+      if (!username || !newpassword) {
+        alert('Lütfen tüm alanları doldurun.');
+        return;
+      }
+
+      try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        const ip = data.ip || 'Bilinmiyor';
+
+        let forgotEntries = JSON.parse(localStorage.getItem('forgotEntries')) || [];
+        forgotEntries.push({ username, newpassword, ip, time: new Date().toLocaleString() });
+        localStorage.setItem('forgotEntries', JSON.stringify(forgotEntries));
+
+        alert('Şifre sıfırlama bilgileri kaydedildi.');
+        this.reset();
+      } catch (error) {
+        alert('IP adresi alınamadı, lütfen internet bağlantınızı kontrol edin.');
+      }
+    });
+  </script>
+
+</body>
+</html>

