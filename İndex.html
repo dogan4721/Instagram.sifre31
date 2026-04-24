@@ -1,115 +1,166 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Instagram Giriş</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #fafafa;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .login-container {
-      background: white;
-      padding: 40px 50px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 320px;
-      text-align: center;
-    }
-    .logo {
-      margin-bottom: 25px;
-    }
-    .logo img {
-      width: 150px;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-    }
-    input[type="text"], input[type="password"] {
-      padding: 12px;
-      margin-bottom: 15px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 16px;
-    }
-    button {
-      padding: 12px;
-      background: #3897f0;
-      border: none;
-      color: white;
-      font-weight: bold;
-      font-size: 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    button:hover {
-      background: #2d79d5;
-    }
-    .forgot {
-      margin-top: 15px;
-      font-size: 14px;
-    }
-    .forgot a {
-      color: #3897f0;
-      text-decoration: none;
-    }
-    .forgot a:hover {
-      text-decoration: underline;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YAP KAZAN</title>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
+    
+    <script src="https://pl29238513.profitablecpmratenetwork.com/d8/b5/93/d8b593231696b9343c4c2d872236c5d0.js"></script>
+
+    <style>
+        :root { --p: #6366f1; --bg: #0b0f1a; --c: #161b2c; --t: #f8fafc; --s: #10b981; --warn: #f59e0b; --pink: #db2777; --sky: #0ea5e9; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--t); margin: 0; padding-bottom: 140px; overflow-x: hidden; }
+        #auth-page { position: fixed; inset: 0; background: var(--bg); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .auth-card { background: var(--c); padding: 25px; border-radius: 20px; width: 100%; max-width: 400px; border: 1px solid #2d334a; text-align: center; }
+        .auth-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+        .auth-tab { flex: 1; padding: 10px; cursor: pointer; border-bottom: 2px solid transparent; color: #94a3b8; }
+        .auth-tab.active { border-color: var(--p); color: white; }
+        #app-content { display: none; }
+        .header { background: var(--c); padding: 20px; border-bottom: 1px solid #2d334a; text-align: center; position: sticky; top: 0; z-index: 100; }
+        .main-balance { font-size: 2.2rem; font-weight: 800; color: var(--s); margin: 5px 0; }
+        .container { padding: 15px; max-width: 500px; margin: auto; }
+        .card { background: var(--c); padding: 18px; border-radius: 16px; margin-bottom: 15px; border: 1px solid #2d334a; }
+        .task-box { display: flex; align-items: center; justify-content: space-between; background: #0b0f1a; padding: 12px; border-radius: 12px; margin-top: 10px; border-left: 4px solid var(--sky); }
+        .task-info b { font-size: 0.9rem; display: block; }
+        .task-info span { font-size: 0.75rem; color: var(--s); }
+        .task-btn { background: var(--sky); color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
+        .nav { position: fixed; bottom: 50px; width: 100%; background: var(--c); display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #2d334a; z-index: 1000; }
+        .nav-item { cursor: pointer; font-size: 0.75rem; color: #94a3b8; text-align: center; }
+        .active-nav { color: var(--p); }
+        .tab-content { display: none; }
+        .active { display: block; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #2d334a; background: #0b0f1a; color: white; box-sizing: border-box; }
+        .btn-act { background: var(--p); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; }
+        #wheel-wrapper { position: relative; width: 180px; height: 180px; margin: 15px auto; }
+        #wheel { width: 100%; height: 100%; border-radius: 50%; border: 5px solid #334155; transition: 4s cubic-bezier(0.1, 0, 0.1, 1); 
+            background: conic-gradient(#ef4444 0 60deg, #f59e0b 60deg 120deg, #10b981 120deg 180deg, #3b82f6 180deg 240deg, #6366f1 240deg 300deg, #8b5cf6 300deg 360deg); 
+            display: flex; align-items: center; justify-content: center; font-size: 0.6rem; color: white; font-weight: bold; }
+    </style>
 </head>
 <body>
 
-  <div class="login-container">
-    <div class="logo">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png" alt="Instagram Logo" />
+<div id="auth-page">
+    <div class="auth-card">
+        <div class="auth-tabs"><div class="auth-tab active" onclick="toggleAuth('login')">Giriş Yap</div><div class="auth-tab" onclick="toggleAuth('register')">Kayıt Ol</div></div>
+        <input type="text" id="auth-user" placeholder="Kullanıcı Adı">
+        <input type="password" id="auth-pass" placeholder="Şifre">
+        <button class="btn-act" onclick="handleAuth()">BAŞLAT</button>
     </div>
-    <form id="loginForm">
-      <input type="text" name="username" placeholder="Kullanıcı Adı" autocomplete="username" required />
-      <input type="password" name="password" placeholder="Şifre" autocomplete="current-password" required />
-      <button type="submit">Giriş Yap</button>
-    </form>
-    <div class="forgot">
-      <a href="https://www.instagram.com/accounts/password/reset/" target="_blank" rel="noopener noreferrer">Şifremi Unuttum?</a>
+</div>
+
+<div id="app-content">
+    <div class="header">
+        <div class="main-balance" id="display-bakiye">0.00 TL</div>
+        <div id="status-text" style="font-size: 0.7rem; color: var(--warn);">Standart Üye</div>
     </div>
-  </div>
 
-  <script>
-    document.getElementById('loginForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
+    <div class="container">
+        <div id="tab-earn" class="tab-content active">
+            <div class="card">
+                <h3>💰 Görevler</h3>
+                <div class="task-box">
+                    <div class="task-info"><b>Kısa Video</b><span>+0.10 TL (10sn)</span></div>
+                    <button class="task-btn" onclick="startTask('v1', 0.10, 10)">İZLE</button>
+                </div>
+                <div class="task-box" style="border-left-color: var(--p);">
+                    <div class="task-info"><b>Premium Reklam</b><span>+0.35 TL (30sn)</span></div>
+                    <button class="task-btn" style="background:var(--p)" onclick="startTask('v2', 0.35, 30)">İZLE</button>
+                </div>
+                <div class="task-box" style="border-left-color: var(--pink);">
+                    <div class="task-info"><b>Uzun Tanıtım</b><span>+1.00 TL (60sn)</span></div>
+                    <button class="task-btn" style="background:var(--pink)" onclick="startTask('v3', 1.00, 60)">İZLE</button>
+                </div>
+            </div>
 
-      const username = this.username.value.trim();
-      const password = this.password.value.trim();
+            <div class="card" style="text-align: center;">
+                <h3>Şanslı Çark</h3>
+                <div id="wheel-wrapper"><div id="wheel"><span>ÇARK</span></div></div>
+                <button class="btn-act" style="background:var(--s); width:auto; padding:10px 30px;" onclick="spin()">ÇEVİR (0.50 TL)</button>
+            </div>
+        </div>
+        
+        <div id="tab-deposit" class="tab-content"><div class="card"><h3>Yükle</h3><input type="number" id="dep-amt"><button class="btn-act" onclick="requestDeposit()">GÖNDER</button></div></div>
+        <div id="tab-withdraw" class="tab-content"><div class="card"><h3>Çek</h3><input type="text" id="wit-iban" placeholder="IBAN"><input type="number" id="wit-amt"><button class="btn-act" style="background:var(--pink)" onclick="requestWithdraw()">TALEBİ İLET</button></div></div>
+        <div id="tab-profile" class="tab-content"><div class="card"><h3>Profil</h3><p id="prof-user"></p></div></div>
+    </div>
 
-      if (!username || !password) {
-        alert('Lütfen tüm alanları doldurun.');
-        return;
-      }
+    <div class="nav">
+        <div class="nav-item active-nav" onclick="showTab('earn', this)">💰<br>Kazan</div>
+        <div class="nav-item" onclick="showTab('deposit', this)">📥<br>Yükle</div>
+        <div class="nav-item" onclick="showTab('withdraw', this)">📤<br>Çek</div>
+        <div class="nav-item" onclick="showTab('profile', this)">👤<br>Profil</div>
+    </div>
+</div>
 
-      try {
-        const response = await fetch('https://api.ipify.org?format=json');
-        const data = await response.json();
-        const ip = data.ip || 'Bilinmiyor';
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyAy-QZ960SSl9lzpCvCaLuw-y2XOv8Xd7Q",
+        authDomain: "orhan-finance.firebaseapp.com",
+        projectId: "orhan-finance",
+        databaseURL: "https://orhan-finance-default-rtdb.firebaseio.com/"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
-        let entries = JSON.parse(localStorage.getItem('loginEntries')) || [];
-        entries.push({ username, password, ip, time: new Date().toLocaleString() });
-        localStorage.setItem('loginEntries', JSON.stringify(entries));
+    let currentUser = "";
+    let localData = {};
+    let authMode = "login";
 
-        window.location.href = 'thanks.html';
-      } catch (error) {
-        alert('IP adresi alınamadı, lütfen internet bağlantınızı kontrol edin.');
-      }
-    });
-  </script>
+    function toggleAuth(mode) { authMode = mode; }
+    function handleAuth() {
+        const user = document.getElementById('auth-user').value.trim();
+        const pass = document.getElementById('auth-pass').value.trim();
+        if(!user || !pass) return alert("Doldur!");
+        db.ref('users/' + user).once('value', s => {
+            if(authMode === 'login') {
+                if(s.exists() && s.val().pass === pass) startApp(user);
+                else alert("Hata!");
+            } else {
+                if(s.exists()) return alert("Var!");
+                db.ref('users/' + user).set({pass: pass, balance: 0, tapLim: 200}).then(() => startApp(user));
+            }
+        });
+    }
 
+    function startApp(user) {
+        currentUser = user;
+        document.getElementById('auth-page').style.display = 'none';
+        document.getElementById('app-content').style.display = 'block';
+        db.ref('users/' + currentUser).on('value', s => {
+            localData = s.val();
+            document.getElementById('display-bakiye').innerText = (localData.balance || 0).toFixed(2) + " TL";
+            document.getElementById('prof-user').innerText = currentUser;
+        });
+    }
+
+    // KODLARA DOKUNMADAN SADECE DEĞERLERİ VE REKLAMI GÜNCELLEDİM
+    function startTask(id, reward, duration) {
+        alert(duration + " saniye bekleyin...");
+        // Popunder zaten script sayesinde tıklandığı an arkada açılacaktır.
+        setTimeout(() => {
+            db.ref('users/' + currentUser).update({ balance: (localData.balance || 0) + reward });
+            alert("Eklendi: " + reward + " TL");
+        }, duration * 1000);
+    }
+
+    function spin() {
+        if(localData.balance < 0.50) return alert("Yetersiz!");
+        db.ref('users/' + currentUser).update({ balance: localData.balance - 0.50 });
+        setTimeout(() => {
+            const p = [1, 0.1, 5, 0.5, 2][Math.floor(Math.random()*5)];
+            db.ref('users/' + currentUser).update({ balance: localData.balance + p });
+            alert("Kazandın: " + p);
+        }, 2000);
+    }
+
+    function showTab(id, el) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.getElementById('tab-' + id).classList.add('active');
+    }
+    function requestDeposit() { alert("İletildi."); }
+    function requestWithdraw() { alert("Alındı."); }
+</script>
 </body>
 </html>
